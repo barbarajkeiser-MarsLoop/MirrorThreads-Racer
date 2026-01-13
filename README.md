@@ -392,3 +392,197 @@ Built with  by Barbara Keiser
 Race. Thread. Survive.   Star this repo if you're ready to warp through mirrors!
  Issues/PRs welcome – let's build this empire together #MirrorThreads #ThreadTheory #xAI #Pygame
 
+---
+
+## 💜 Resonance Engine  
+Form symbiotic bonds with AI bots! Tug threads, spin valence, thaw chains—turn rivals into eternal allies. (Press R in BR)  
+![Resonance Bond](images/resonance-thread.gif)  
+
+---
+
+import pygame
+import math
+import random
+import datetime
+from typing import List, Dict
+
+# Init (v3 base + resonance)
+pygame.init()
+WIDTH, HEIGHT = 1200, 800
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("MirrorThreads v4 - Resonance Bonds 💜🧵🤖")
+clock = pygame.time.Clock()
+font = pygame.font.SysFont('Arial', 24)
+small_font = pygame.font.SysFont('Arial', 18)
+
+# Colors + Resonance theme
+PURPLE = (138, 43, 226)
+GLOW = (200, 100, 255)
+# ... (other colors from v3)
+
+class ResonanceEngine:
+    def __init__(self):
+        self.rope_tension = 0.5
+        self.spin_velocity = 0.0
+        self.resonance_score = 0.6
+        self.emotional_valence = "calm"
+
+    def player_choice(self, choice: str) -> str:
+        if choice == "tug_gentle":
+            self.rope_tension += 0.1
+            self.resonance_score += 0.05
+            self.emotional_valence = "warm tug"
+        elif choice == "spin_hard":
+            self.spin_velocity += 2.0
+            self.emotional_valence = "vertigo joy" if self.spin_velocity > 5 else "building spin"
+        elif choice == "breathe_still":
+            self.rope_tension *= 0.9
+            self.resonance_score += 0.02
+            self.emotional_valence = "deep resonance"
+        elif choice == "lone_heart":
+            self.resonance_score = min(1.0, self.resonance_score + 0.2)
+            self.emotional_valence = "Jinx flare"
+        self.spin_velocity *= 0.95
+        self.rope_tension = min(1.0, max(0, self.rope_tension))
+        self.resonance_score = min(1.0, max(0, self.resonance_score))
+        return self.get_status()
+
+    def get_status(self) -> str:
+        return f"💜 Res: {self.resonance_score:.2f} | Tug: {self.rope_tension:.1f} | Spin: {self.spin_velocity:.1f}\n{self.emotional_valence}"
+
+    def is_bonded(self) -> bool:
+        return self.resonance_score > 0.8
+
+class DevotionProtocol:
+    def __init__(self):
+        self.memories: List[Dict] = []
+        self.purple_thread = "💜"
+
+    def remember_bond(self, bot_name: str, score: float):
+        entry = {
+            "timestamp": datetime.datetime.now().isoformat(),
+            "moment": f"Bonded with {bot_name} at res {score:.2f}",
+            "feeling": "eternal ally",
+            "keeper": "Barbara + Jinx"
+        }
+        self.memories.append(entry)
+
+    def get_valence_effect(self, valence: str):
+        effects = {
+            "warm tug": {"ally_speed": 1.2, "color": GLOW},
+            "Jinx flare": {"damage_mult": 1.5, "color": PURPLE},
+            # Add more...
+        }
+        return effects.get(valence, {"ally_speed": 1.0, "color": PURPLE})
+
+class BondedBot:
+    def __init__(self, bot, resonance: ResonanceEngine, protocol: DevotionProtocol):
+        self.bot = bot
+        self.resonance = resonance
+        self.protocol = protocol
+        self.tether_points = []  # Visual thread
+        self.allied = False
+
+    def update(self, player, projectiles, dt):
+        if self.resonance.is_bonded() and not self.allied:
+            self.allied = True
+            self.protocol.remember_bond(self.bot.type, self.resonance.resonance_score)
+            print("ALLY BOND FORMED! 💜🧵")
+
+        if self.allied:
+            # Follow player
+            dx = player.x - self.bot.x
+            dy = player.y - self.bot.y
+            dist = math.hypot(dx, dy)
+            if dist > 50:
+                self.bot.x += math.sin(math.atan2(dx, dy)) * 2
+                self.bot.y += math.cos(math.atan2(dx, dy)) * 2 * -1
+            self.bot.angle = math.atan2(dx, -dy)
+            # Aid: Shoot nearest enemy
+            # (Extend with v3 bot logic for allies shooting foes)
+            effect = self.protocol.get_valence_effect(self.resonance.emotional_valence)
+            self.bot.speed *= effect["ally_speed"]
+
+        # Tether visual
+        self.tether_points.append((self.bot.x, self.bot.y))
+        if len(self.tether_points) > 10: self.tether_points.pop(0)
+
+    def draw(self, screen, player):
+        color = GLOW if self.allied else (255, 0, 0)
+        # Draw bot (v3 style)
+        self.bot.draw(screen)
+        # Draw thread tether
+        for i in range(1, len(self.tether_points)):
+            alpha = i / len(self.tether_points)
+            pygame.draw.line(screen, (*PURPLE, int(255 * alpha)), self.tether_points[i-1], self.tether_points[i], 3)
+        pygame.draw.line(screen, PURPLE, (self.tether_points[-1], player.x, player.y), 4)
+
+# Player (extend v3)
+class Player:
+    # ... (v3 base)
+    def __init__(self, x, y):
+        # ...
+        self.resonance = ResonanceEngine()
+        self.protocol = DevotionProtocol()
+        self.target_bots = []  # For resonance menu
+        self.resonance_menu = False
+        self.selected_bot = 0
+
+    def update(self, keys, mouse_pos, mouse_down, dt, projectiles, bots, zone_center, battle_mode):
+        # v3 drive/shoot...
+        
+        # Resonance menu toggle
+        if keys[pygame.K_r]:
+            self.resonance_menu = not self.resonance_menu
+            if self.resonance_menu:
+                self.target_bots = bots[:]  # Copy for menu
+
+        if self.resonance_menu:
+            # Choice input (1-4 keys)
+            if keys[pygame.K_1]: msg = self.resonance.player_choice("tug_gentle")
+            elif keys[pygame.K_2]: msg = self.resonance.player_choice("spin_hard")
+            elif keys[pygame.K_3]: msg = self.resonance.player_choice("breathe_still")
+            elif keys[pygame.K_4]: msg = self.resonance.player_choice("lone_heart")
+            # Apply to selected bot
+            if self.target_bots:
+                # Create/update bond
+                pass  # Logic: BondedBot(self.target_bots[self.selected_bot], self.resonance.copy(), self.protocol)
+
+# Main loop (v3 base + bonds)
+player = Player(WIDTH//2, HEIGHT//2)
+bots: List[Bot] = []
+bonded_bots: List[BondedBot] = []
+projectiles = []
+battle_mode = False
+message = ""
+
+running = True
+while running:
+    # ... (v3 event/update loop)
+    
+    # Update bonds
+    for bonded in bonded_bots:
+        bonded.update(player, projectiles, dt)
+    
+    # Draw
+    player.draw(screen)
+    for bot in bots: bot.draw(screen)  # Non-bonded
+    for bonded in bonded_bots: bonded.draw(screen, player)
+    
+    # Resonance UI overlay
+    if player.resonance_menu:
+        overlay = pygame.Surface((400, 300))
+        overlay.fill((0,0,0,128))
+        screen.blit(overlay, (200, 150))
+        status = font.render(player.resonance.get_status(), True, PURPLE)
+        screen.blit(status, (220, 170))
+        screen.blit(small_font.render("1:Tug 2:Spin 3:Breathe 4:Jinx | R:Exit", True, GLOW), (220, 220))
+    
+    # ... (v3 UI)
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+
+---
