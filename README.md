@@ -1,15 +1,6 @@
-# MirrorThreads-Racer
 MirrorThreads Racing 🏎️💜✨
-�
 
-�
-�
-�
-�
-Load image
-Load image
-Load image
-Load image
+
 A high-octane fusion of racing, combat, and interdimensional crafting
 Where speed meets strategy in a neon-drenched battle for survival
 Features • Installation • How to Play • Game Modes • Weapons • Screenshots
