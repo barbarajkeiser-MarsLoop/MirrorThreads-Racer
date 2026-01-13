@@ -1,4 +1,4 @@
-# MirrorThreads Racer 🏎️💜🪞✨
+i# MirrorThreads Racer 🏎️💜🪞✨
 
 **A high-octane interdimensional racing battle royale where threads weave chaos, mirrors flip reality, and Clue weapons decide who survives.**
 
@@ -60,3 +60,17 @@ git clone https://github.com/barbarajkeiser-MarsLoop/MirrorThreads-Racer.git
 cd MirrorThreads-Racer
 pip install pygame
 python mirrorthreads_v3.py   # or latest version
+
+pip install pygame
+# Then download & run the latest .py file from repo
+
+ Roadmap Online multiplayer lobbies
+ Custom racer skins & fox/soldier variants
+ Achievements & leaderboards
+ Pulsing soundtrack that reacts to speed/portals
+ New arenas: Clue mansions, cosmic voids, fox dens
+
+Built with  by Barbara Keiser
+Race. Thread. Survive.   Star this repo if you're ready to warp through mirrors!
+ Issues/PRs welcome – let's build this empire together #MirrorThreads #ThreadTheory #xAI #Pygame
+
